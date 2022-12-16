@@ -3,16 +3,16 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"os"
-	"time"
-    "strconv"
 	_ "github.com/go-sql-driver/mysql"
+	"os"
+	"strconv"
+	"time"
 
-	"go.mongodb.org/mongo-driver/bson"
-    "go.mongodb.org/mongo-driver/mongo"
-    "go.mongodb.org/mongo-driver/mongo/options"
-	"net/url"
 	"context"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"net/url"
 )
 
 func main() {
@@ -52,16 +52,16 @@ func main() {
 	}
 
 	triesStr := os.Getenv("TRIES")
-    tries, err := strconv.Atoi(triesStr)
+	tries, err := strconv.Atoi(triesStr)
 	if err != nil {
 		tries = 10
 	}
 
-    for i := 1; i < tries; i += 1 {
-        sleepS := 3 * i + 1
-        sleep := time.Duration(sleepS) * time.Second
-		
-		if (dbType == "mysql") {
+	for i := 1; i < tries; i += 1 {
+		sleepS := 3*i + 1
+		sleep := time.Duration(sleepS) * time.Second
+
+		if dbType == "mysql" {
 			db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", mysqlUser, mysqlPass, mysqlHost, mysqlPort, mysqlName))
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Try (%d/%d) sleep %d seconds error connect to '%s@password@tcp(%s:%s)/%s': %v\n", i, tries, sleepS, mysqlUser, mysqlHost, mysqlPort, mysqlName, err)
@@ -80,7 +80,7 @@ func main() {
 			break
 		}
 
-		if (dbType == "mongodb") {
+		if dbType == "mongodb" {
 			url, err := url.Parse(mongoUri)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Error: cannot get db from uri: %v\n", err)
@@ -117,11 +117,11 @@ func main() {
 			break
 		}
 
-		if (i == tries - 1) {
+		if i == tries-1 {
 			fmt.Fprintf(os.Stderr, "Connection attempts have failed")
 			os.Exit(2)
 		}
-    }
+	}
 
 }
 
