@@ -13,6 +13,6 @@ FROM docker.io/alpine:3.17.2 AS certificates
 RUN apk --no-cache add ca-certificates
 
 FROM scratch
-COPY --from=certificates /etc/ssl
+COPY --from=certificates /etc/ssl /etc/ssl
 COPY --from=builder ./app/main /main
 ENTRYPOINT ["/main"]
