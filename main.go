@@ -57,7 +57,8 @@ func main() {
 		tries = 10
 	}
 
-	for i := 1; i < tries; i += 1 {
+	i := 1
+	for i = 1; i <= tries; i += 1 {
 		sleepS := 3*i + 1
 		sleep := time.Duration(sleepS) * time.Second
 
@@ -108,7 +109,7 @@ func main() {
 
 			_, err = client.Database(dbName).ListCollectionNames(ctx, bson.D{})
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Try (%d/%d) sleep %d seconds error list collections:%v\n", i, tries, sleepS, err)
+				fmt.Fprintf(os.Stderr, "Try (%d/%d) sleep %d seconds error list collections: %v\n", i, tries, sleepS, err)
 				time.Sleep(sleep)
 				continue
 			}
@@ -116,11 +117,11 @@ func main() {
 			fmt.Println("Connect success")
 			break
 		}
+	}
 
-		if i == tries-1 {
-			fmt.Fprintf(os.Stderr, "Connection attempts have failed")
-			os.Exit(2)
-		}
+	if i == tries {
+		fmt.Fprintf(os.Stderr, "Connection attempts have failed")
+		os.Exit(2)
 	}
 
 }
