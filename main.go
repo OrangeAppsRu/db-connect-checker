@@ -119,7 +119,7 @@ func main() {
 		}
 	}
 
-	if i == tries {
+	if i == tries + 1 {
 		fmt.Fprintf(os.Stderr, "Connection attempts have failed")
 		os.Exit(2)
 	}
